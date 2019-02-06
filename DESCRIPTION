@@ -1,0 +1,15 @@
+Package: pchsurv
+Type: Package
+Title: Piecewise constant estimation of the hazard function for time-to-event data
+Version: 0.1.0
+Author: Olivier Bouaziz
+Maintainer: Olivier Bouaziz <olivier.bouaziz@parisdescartes.fr>
+Description: Given right censored data, the package estimates the hazard function using a piecewise-constant
+ hazard model. The method is combined with the adaptive-ridge algorithm which allows to automatically choose the cuts 
+ from a given grid of cuts.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+  bandsolve
+RoxygenNote: 6.1.1

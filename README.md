@@ -1,5 +1,4 @@
 # pchsurv
-Estimation of piecewise-constant hazard time to event data
 
 This package provides estimations of the hazard function of time to event data in a piecewise contant hazard model.
 

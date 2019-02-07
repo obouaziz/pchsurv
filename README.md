@@ -8,6 +8,6 @@ This package provides estimations of the hazard function for time to event data 
 
 In the first figure below the adaptive ridge estimator has been implemented for different penalties. In the second figure the regularization path is shown. The Bayesian Information Criteria is used to select the final model. The selected is shown by the dotted vertical line on the left figure and the final estimated hazard is shown on the right figure.
 
-![](penhaz3.gif)
+![](penhaz4.gif)
 
 ![](arpch3.gif)

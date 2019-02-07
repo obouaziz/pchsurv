@@ -10,4 +10,4 @@ In the first figure below the adaptive ridge estimator has been implemented for 
 
 ![](penhaz3.gif)
 
-![](arpch.pdf)
+![](arpch.gif)

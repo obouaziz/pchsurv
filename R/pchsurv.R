@@ -8,6 +8,9 @@
 #' @param CI should the confidence intervals be computed? Default to TRUE.
 #' @param alphaCI the value of alpha for 1-alpha confidence intervals. Default to 0.05.
 #' @details The survival estimator is computed from the maximum likelihood estimator in the piecewise constant hazard model. It is computed for each value of \code{seqtime}.
+#'
+#' The plot function can be directly used on a pchsurv object. It will display the survival function. If the option \code{CI=TRUE} is used in the plot command,
+#' then a confidence interval is also displayed. Note that the line command also works in the same fashion.
 #' @return
 #' \tabular{lll}{
 #' \code{surv} \tab  \code{ } \tab the estimated survival function\cr

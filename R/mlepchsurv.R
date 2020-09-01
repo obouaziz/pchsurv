@@ -10,6 +10,10 @@
 #' @param logtransf should the confidence intervals be computed using the log-transformtation? Default to TRUE.
 #' @details The maximum likelihood estimator is computed from the two exhaustive statistics O_k=sum_i Delta_i 1(c_{(k-1)}<T_i<=c_k) and R_k=sum_i (min(c_k,T_i)-c_{(k-1)}) 1(T_i>=c_{(k-1)}).
 #' It is equal to O_k/R_k on each cut (c_{(k-1)},c_{k}]. They are called A and B in what follows.
+#'
+#' The plot function can be directly used on an mlepchsurv object if the \code{cuts} option is not equal to NULL. In that case, it will display the hazard function. If the option \code{CI=TRUE} is used in the plot command,
+#' then a confidence interval is also displayed. The level of the confidence interval should be specified through the mlepchsurv command. Note that the line command also works in
+#' the same fashion.
 #' @return
 #' \tabular{lll}{
 #' \code{a} \tab  \code{ } \tab the estimated log-hazard\cr
@@ -46,6 +50,12 @@ mlepchsurv.default=function(time,status,cuts=NULL,weights=NULL,CI=TRUE,alphaCI=0
     stop("cuts must be an increasing sequence with no ex-aequo!")}
   if (is.null(weights)) {weights=rep(1,length(time))}
   k=length(cuts)+1
+  if (k==1){
+    A=sum(weights[status==1])
+    B=sum(weights*(time))
+    a=log(A/B)
+    hazard=NULL
+  } else {
   J=cut(time,breaks=c(0,cuts,Inf),labels=1:k,right=FALSE)
   cuts0=c(0,cuts)
   A=sapply(split(weights*status,J),sum)
@@ -53,8 +63,7 @@ mlepchsurv.default=function(time,status,cuts=NULL,weights=NULL,CI=TRUE,alphaCI=0
   B=sapply(split(weights*(time-cuts0[J]),J),sum)
   B[-k]=B[-k]+rev(cumsum(rev(aux)))*diff(cuts0)
   a=log(A/B)
-  hazard=NULL
-  if (length(cuts)>0) hazard=stepfun(cuts,exp(a))
+  hazard=stepfun(cuts,exp(a))}
   CIleft=CIright=rep(NA,k)
   if (CI==TRUE){
   if (sum(a==-Inf)!=0){CIleft[a==-Inf]<-0;CIright[a==-Inf]<-0}
@@ -134,6 +143,9 @@ lines.pch=function(fit,Range=NA,CI=FALSE,lwd=1,...)
 convertPCH<-function(cuts){
   #cuts0=c(0,cuts)
   k=length(cuts)
+  if (k==0) {
+    vect=c(paste("[",0,",","Inf",")",sep=""))
+  } else {
   newcuts=0
   vect=rep(NA,k)
   for (i in 1:k)
@@ -142,6 +154,7 @@ convertPCH<-function(cuts){
     newcuts=cuts[i]
   }
   vect=c(vect,paste("[",newcuts,",","Inf",")",sep=""))
+  }
   vect
 }
 

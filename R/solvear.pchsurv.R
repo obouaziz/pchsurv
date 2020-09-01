@@ -50,7 +50,7 @@ solvear.pchsurv=function(time,status,cuts,w=rep(1.0,length(cuts)),pen=2.0,a=NULL
     # D1
     D[-k,1+1]=pen*w
     # NR update with bandsolve
-    a=a-bandsolve::bandsolve(D,b)
+    a=a-bandsolve(D,b)
     #if (is.na(max(abs(a-old.a)/abs(a)))) break else {
     if (max(abs(a-old.a)/abs(a))<tol) break;
   }

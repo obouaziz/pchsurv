@@ -17,8 +17,15 @@
 #' @details The adaptive-ridge algorithm is run for the sequence of penalty values \code{pen}. The final adaptive-ridge estimator \code{final.a} is found
 #' by minimising a Bayesian Information Criteria (BIC). The \code{res} list returned from the function contains all the
 #' estimators (adaptive-ridge or ridge) for each penalty value. Write \code{res[[pos]]} to get the estimator for the
-#' penalty corresponding to \code{pen[pos]}. Use the option AR to choose between the ridge or adaptive-ridge estimator.
-#' For the ridge estimator only res is not null.Confidence intervals are computed for the final adaptive-ridge hazard estimator.
+#' penalty corresponding to \code{pen[pos]}. Use the option \code{AR} to choose between the ridge or adaptive-ridge estimator.
+#' For the ridge estimator only res is not null. Confidence intervals are computed for the final adaptive-ridge hazard estimator if \code{CI=TRUE}.
+#'
+#' The plot function can be directly used on an arpchsurv object. It will provide the regularisation path for the ridge or adaptive-ridge estimator, depending on the \code{AR} option.
+#' If the option pos is used in the plot, it will plot the final estimator corresponding to penalty equal to pos. If CI=TRUE is added, the confidence interval
+#' for the corresponding penalised estimator will also be displayed. See examples below for an illustration on how the plot function can be combined with the arpchsurv output. The line command also works in
+#' the same fashion.
+#'
+#' Note that the \code{pen} sequence of penalties is usuallly not calibrated for a given problem. It needs to be properly tuned beforehand.
 #' @return
 #' \tabular{lll}{
 #' \code{res} \tab  \code{ } \tab the list of adaptive-ridge estimators for each penalty value\cr
@@ -50,13 +57,11 @@
 #'
 #' #The adaptive ridge estimator
 #' fit=arpchsurv(time,delta,verbose=TRUE,cuts=1:100,CI=TRUE)
-#'
-#' fit$final.cuts
-#' exp(fit$final.a)
+#' fit
 #'
 #' plot(fit)
 #' plot(fit,pos=fit$pos,CI=TRUE)
-#' points(c(0,c(20,40,50,70),max(time)),c(0,alpha),type="S",lwd=2,xlim=c(10,80),lty=2,col="red") #the true hazard function
+#' points(c(0,c(20,40,50,70),max(time)),c(0,alpha),type="S",lwd=2,lty=2,col="red") #the true hazard function
 #'
 #' fitsurv=pchsurv(time,delta,cuts=fit$final.cuts)
 #' plot(fitsurv,CI=TRUE)
@@ -68,7 +73,7 @@
 #'plot(fitR)
 #'plot(fitR,pos=50,main="")
 #'lines(fitR,pos=80,col="blue")
-#'points(c(0,c(20,40,50,70),max(time)),c(0,alpha),type="S",lwd=2,xlim=c(10,80),lty=2,col="red") #the true hazard function
+#'points(c(0,c(20,40,50,70),max(time)),c(0,alpha),type="S",lwd=2,lty=2,col="red") #the true hazard function
 
 arpchsurv <- function(time,status,cuts=NULL,weights=rep(1.0,length(time)),pen=exp(seq(log(0.1),log(1000),length=100)),a=rep(0,length(cuts)+1),AR=TRUE,...) {UseMethod("arpchsurv")}
 #' @export
